@@ -6,6 +6,7 @@
 :highlight StatusLine cterm=NONE ctermfg=3 " transparent background statusline, yellow foreground (at least on debian)
 :highlight StatusLineNC cterm=NONE " transparent background inactive statusline
 
+:set viminfo=
 :set noswapfile
 :set splitright
 :set history=0 " don't record commands
