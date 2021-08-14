@@ -6,6 +6,9 @@
 :highlight StatusLine cterm=NONE ctermfg=3 " transparent background statusline, yellow foreground (at least on debian)
 :highlight StatusLineNC cterm=NONE " transparent background inactive statusline
 
+:highlight TrailingWhitespace ctermbg=red
+:match TrailingWhitespace /\s\+$/
+
 :set viminfo=
 :set noswapfile
 :set splitright
