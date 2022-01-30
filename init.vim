@@ -80,7 +80,7 @@
 
 :nnoremap <silent> <Leader>mm :execute printf(':make! %s', g:fmake_target)<CR>
 :nnoremap          <Leader>mt :make! 
-:nnoremap <silent> <Leader>mc :make! all<CR>
+:nnoremap <silent> <Leader>ma :make! all<CR>
 :nnoremap <silent> <Leader>mc :make! clean<CR>
 
 " fzf
