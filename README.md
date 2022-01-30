@@ -15,7 +15,7 @@ my personal configuration for vim/neovim
 - new mappings for fuzzy finding files, ctags, fast grep (ripgrep), commits, open buffers and :help tags
 
 ## install
-This configuration is depends on [fzf](https://github.com/junegunn/fzf), [ripgrep](https://github.com/BurntSushi/ripgrep) and [batcat](https://github.com/sharkdp/bat).
+This configuration depends on [fzf](https://github.com/junegunn/fzf), [ripgrep](https://github.com/BurntSushi/ripgrep) and [batcat](https://github.com/sharkdp/bat).
 Make sure these are installed before proceeding.
 
 Firstly pull upstream plugins with `git submodule update --init --recursive --depth=1`,
