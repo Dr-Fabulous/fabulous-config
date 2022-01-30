@@ -34,8 +34,9 @@
 :match trailing_whitespace /\s\+$/
 
 " configure then load plugins
-:packadd! auto-tab
-:packadd! region
+:packadd! ftab
+:packadd! fregion
+:packadd! frun
 :packadd! vim-cpp-modern
 :packadd! brightscript.vim
 :packadd! vim-fugitive
@@ -71,6 +72,17 @@
 :nnoremap <silent> <Leader>gc :cn<CR>
 :nnoremap <silent> <Leader>gC :cN<CR>
 
+" frun
+:nnoremap <silent> <Leader>rr :Frun<CR>
+
+" fmake
+:let g:fmake_target = 'all'
+
+:nnoremap <silent> <Leader>mm :execute printf(':make! %s', g:fmake_target)<CR>
+:nnoremap          <Leader>mt :make! 
+:nnoremap <silent> <Leader>mc :make! all<CR>
+:nnoremap <silent> <Leader>mc :make! clean<CR>
+
 " fzf
 :nnoremap <silent> <Leader>ff :GFiles<CR>
 :nnoremap <silent> <Leader>fF :Files<CR>
@@ -80,3 +92,7 @@
 :nnoremap <silent> <Leader>fc :Commits!<CR>
 :nnoremap <silent> <Leader>fb :Buffers<CR>
 :nnoremap <silent> <Leader>fh :Helptags<CR>
+
+" reload .vimrc/init.vim
+:let g:fconfig = expand('<sfile>:p')
+:nnoremap <silent> <Leader><C-r> :execute printf(':so %s', g:fconfig)<CR><bar>:echo printf('reloaded "%s"', g:fconfig)<CR>

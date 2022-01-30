@@ -1,13 +1,13 @@
-:if !exists('g:region_defines')
-	:let g:region_defines = {
+:if !exists('g:fregion_defines')
+	:let g:fregion_defines = {
 	\	'brs_tag': {'file': 'syntax/brs.vim', 'hiLink': 'SpecialComment', 'start': '<\s*script.\{-}type\s*=\s*.text/brightscript[^/]\{-}>', 'end': '<\s*/script\s*>'},
 	\	'js_tag': {'file': 'syntax/javascript.vim', 'hiLink': 'SpecialComment', 'start': '<\s*script\([^/]\{-}\|"[^"]\{-}"\)\{-}>', 'end': '<\s*/script\s*>'},
 	\	'css_tag': {'file': 'syntax/css.vim', 'hiLink': 'SpecialComment', 'start': '<\s*style\s*>', 'end': '<\s*/style\s*>'}
 	\}
 :endif
 
-:if !exists('g:region_mappings')
-	:let g:region_mappings = {
+:if !exists('g:fregion_mappings')
+	:let g:fregion_mappings = {
 	\	'xml': ['brs_tag'],
 	\	'html': ['js_tag', 'css_tag']
 	\}
@@ -47,13 +47,13 @@
 :endfunction
 
 :function! s:CheckRegions()
-	:if !has_key(g:region_mappings, &filetype)
+	:if !has_key(g:fregion_mappings, &filetype)
 		:return
 	:endif
 
-	:for l:k in g:region_mappings[&filetype]
-		:if has_key(g:region_defines, l:k)
-			:call s:ApplyDefinedRegion(printf('%s_%s', &filetype, l:k), g:region_defines[l:k])
+	:for l:k in g:fregion_mappings[&filetype]
+		:if has_key(g:fregion_defines, l:k)
+			:call s:ApplyDefinedRegion(printf('%s_%s', &filetype, l:k), g:fregion_defines[l:k])
 		:endif
 	:endfor
 :endfunction

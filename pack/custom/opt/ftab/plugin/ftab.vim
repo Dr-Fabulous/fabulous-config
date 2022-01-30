@@ -1,5 +1,5 @@
-:if !exists('g:auto_tab_default')
-	:let g:auto_tab_default = {
+:if !exists('g:ftab_default')
+	:let g:ftab_default = {
 	\	'tabstop': 8,
 	\	'softtabstop': 8,
 	\	'shiftwidth': 8,
@@ -7,8 +7,8 @@
 	\}
 :endif
 
-:if !exists('g:auto_tab_mappings')
-	:let g:auto_tab_mappings = {
+:if !exists('g:ftab_mappings')
+	:let g:ftab_mappings = {
 	\	'h': 4,
 	\	'c': 4,
 	\	'cpp': 4,
@@ -42,16 +42,16 @@
 :endfunction
 
 :function! s:UseDefaults()
-	:call s:UseConf(g:auto_tab_default)
+	:call s:UseConf(g:ftab_default)
 :endfunction
 
 :function! s:SetTabs()
-	:if !has_key(g:auto_tab_mappings, &filetype)
+	:if !has_key(g:ftab_mappings, &filetype)
 		:call s:UseDefaults()
 		:return
 	:endif
 
-	:call s:UseConf(g:auto_tab_mappings[&filetype])
+	:call s:UseConf(g:ftab_mappings[&filetype])
 :endfunction
 
 :augroup autoTabGroup
