@@ -1,16 +1,15 @@
-:function! s:Frun(path)
-	:let l:exec = expand(exists('g:frun_exec') ? g:frun_exec : a:path)
+:function! s:Frun()
+	:let l:bin = exists('g:Frun_bin') ? g:Frun_bin : expand('<afile>')
 
-	:if !executable(l:exec)
-		:echoerr printf('"%s" is not executable', l:exec)
+	:if !executable(l:bin)
+		:echoerr printf('"%s" is not executable', l:bin)
 		:return
 	:endif
 
-	:if exists('g:frun_args')
-		:execute printf(':!%s %s', l:exec, expand(join(g:frun_args, ' ')))
-	:else
-		:execute printf(':!%s', l:exec)
-	:endif
+	:execute printf('!%s %s %s',
+		       \ exists('g:Frun_env') ? expand(g:Frun_env) : '',
+		       \ g:Frun_bin,
+		       \ exists('g:Frun_args') ? expand(g:Frun_args) : '')
 :endfunction
 
-:command! Frun :call s:Frun('%:p')
+:command! Frun :call s:Frun()

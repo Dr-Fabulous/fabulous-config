@@ -21,6 +21,7 @@
 :set noautochdir
 :set autoindent
 :set history=0
+:set sessionoptions+=globals
 
 " enable auto complete (also uses ctags)
 :set omnifunc=syntaxcomplete#Complete
@@ -37,6 +38,7 @@
 :packadd! ftab
 :packadd! fregion
 :packadd! frun
+:packadd! fmake
 :packadd! vim-cpp-modern
 :packadd! brightscript.vim
 :packadd! vim-fugitive
@@ -74,14 +76,14 @@
 
 " frun
 :nnoremap <silent> <Leader>rr :Frun<CR>
+:nnoremap <silent> <Leader>rt " enter command then map to variables
 
 " fmake
-:let g:fmake_target = 'all'
-
-:nnoremap <silent> <Leader>mm :execute printf(':make! %s', g:fmake_target)<CR>
-:nnoremap          <Leader>mt :make! 
-:nnoremap <silent> <Leader>ma :make! all<CR>
-:nnoremap <silent> <Leader>mc :make! clean<CR>
+:nnoremap <silent> <Leader>mm :Fmake!<CR>
+:nnoremap          <Leader>mt :Fmake! 
+:nnoremap <silent> <Leader>ma :Fmake! all<CR>
+:nnoremap <silent> <Leader>mc :Fmake! clean<CR>
+:nnoremap <silent> <Leader>m. :FmakeLast!<CR>
 
 " fzf
 :nnoremap <silent> <Leader>ff :GFiles<CR>
