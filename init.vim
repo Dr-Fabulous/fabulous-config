@@ -74,6 +74,10 @@
 :nnoremap <silent> <Leader>gc :cn<CR>
 :nnoremap <silent> <Leader>gC :cN<CR>
 
+" tag match navigation
+:nnoremap <silent> <Leader>gt :tn<CR>
+:nnoremap <silent> <Leader>gT :tp<CR>
+
 " frun
 :nnoremap <silent> <Leader>rr :Frun<CR>
 :nnoremap <silent> <Leader>rt " enter command then map to variables
