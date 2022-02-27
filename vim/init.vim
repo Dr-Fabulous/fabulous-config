@@ -43,7 +43,6 @@
 :packadd! brightscript.vim
 :packadd! vim-fugitive
 
-:let g:fzf_layout = {'down': '40%'}
 :let $FZF_DEFAULT_COMMAND = "rg --files --ignore-case -g '!tags'"
 :let $FZF_DEFAULT_OPTS = '--ansi --preview-window="right:60%" --preview="batcat --color=always --style=header,grid --line-range :300 {}" --layout reverse --margin=1,4 --bind=ctrl-s:select-all,ctrl-d:deselect-all'
 
