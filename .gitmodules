@@ -1,15 +1,15 @@
 [submodule "pack/upstream/opt/fzf"]
-	path = pack/upstream/opt/fzf
+	path = vim/pack/upstream/opt/fzf
 	url = https://github.com/junegunn/fzf.git
 [submodule "pack/upstream/opt/fzf.vim"]
-	path = pack/upstream/opt/fzf.vim
+	path = vim/pack/upstream/opt/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
 [submodule "pack/upstream/opt/vim-cpp-modern"]
-	path = pack/upstream/opt/vim-cpp-modern
+	path = vim/pack/upstream/opt/vim-cpp-modern
 	url = https://github.com/bfrg/vim-cpp-modern.git
 [submodule "pack/upstream/opt/brightscript.vim"]
-	path = pack/upstream/opt/brightscript.vim
+	path = vim/pack/upstream/opt/brightscript.vim
 	url = https://github.com/chooh/brightscript.vim.git
 [submodule "pack/upstream/opt/vim-fugitive"]
-	path = pack/upstream/opt/vim-fugitive
+	path = vim/pack/upstream/opt/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git

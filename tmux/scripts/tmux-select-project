@@ -1,0 +1,32 @@
+#!/bin/sh
+
+if [ -z "$TMUX" ]
+then
+	printf "\$TMUX is not set\n"
+	exit 1
+fi
+
+if [ -z "$TMUX_PROJECTS" -o ! -d "$TMUX_PROJECTS" ]
+then
+	printf "'%s' is not a valid directory" 1>&2
+	exit 1
+fi
+
+PROJECT_PATH="$(cd "$TMUX_PROJECTS"; ls -1 -d */ | sed 's/\/$//' | fzf --reverse --prompt='TmuxProject> ')"
+PROJECT_NAME="$(printf "$PROJECT_PATH" | sed 's/[\.]/_/g')"
+
+if ! tmux has-session -t "$PROJECT_NAME"
+then
+	tmux new-session -d\
+			 -s "$PROJECT_NAME"\
+			 -c "$TMUX_PROJECTS/$PROJECT_PATH"\
+			 -n "build"\;\
+	     \
+	     new-window -t "$PROJECT_NAME"\
+			-c "$TMUX_PROJECTS/$PROJECT_PATH"\
+			-n "src"\;\
+	     \
+	     send-keys nvim Enter
+fi
+
+tmux switch-client -t "$PROJECT_NAME"

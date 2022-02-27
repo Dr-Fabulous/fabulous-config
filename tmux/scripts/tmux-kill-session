@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ -z "$TMUX" ]
+then
+	printf "\$TMUX is not set\n"
+	exit 1
+fi
+
+CURR="$(tmux display-message -p "#{client_session}")"
+LAST="$(tmux display-message -p "#{client_last_session}")"
+
+if [ "$(tmux list-sessions | wc -l)" -gt "1" ]
+then
+	if [ -z "$LAST" -o "$CURR" = "$LAST" ]
+	then
+		tmux switch-client -n
+	else
+		tmux switch-client -t "$LAST"
+	fi
+fi
+
+tmux kill-session -t "$CURR"

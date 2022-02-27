@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -z "$TMUX" ]
+then
+	printf "\$TMUX is not set\n"
+	exit 1
+fi
+
+SESSION="$(tmux list-sessions -F "#{session_name}" | fzf --reverse --prompt="TmuxSession> ")"
+
+if [ -n "$SESSION" ]
+then
+	tmux switch-client -t "$SESSION"
+fi
