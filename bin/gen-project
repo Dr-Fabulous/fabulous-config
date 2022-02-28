@@ -1,0 +1,162 @@
+#!/bin/sh
+
+usage() {
+	cat <<-EOF
+		gen-project language name, generate a project template for the given language.
+		gen-project --list-languages, list languages currently supported
+		gen-project --help, display this usage guide.
+	EOF
+}
+
+die() {
+	printf "\033[1;31mERROR\033[0m: %s\n" "$1"
+	exit "${2:-1}"
+}
+
+LANGUAGES="C89
+C99
+C11
+C++11
+C++14
+C++17
+C++20"
+
+is_supported_language() {
+	for L in $LANGUAGES
+	do
+		if [ "$1" = "$L" ]
+		then
+			return 0
+		fi
+	done
+
+	return 1
+}
+
+gen_cmake_project() {
+	if [ ! "${LANG##C++}" = "$LANG" ]
+	then
+		STD="cxx_std_${LANG##C++}"
+		LANG="CXX"
+		EXT="cpp"
+	else
+		STD="c_std_${LANG##C}"
+		LANG="C"
+		EXT="c"
+	fi
+
+	NAMESPACE="${NAMESPACE:-fb}"
+
+	mkdir -p "$PROJECT/inc/$NAMESPACE/$PROJECT" \
+		 "$PROJECT/src" \
+		 "test"
+
+	tee "CMakeLists.txt" <<EOF
+cmake_minimum_required(VERSION 3.18.0)
+
+find_package(Git)
+
+if(NOT Git_FOUND)
+	message(FATAL_ERROR "could not find Git")
+endif()
+
+execute_process(COMMAND git describe --tags --abbrev=0
+		RESULT_VARIABLE  _RET
+		OUTPUT_VARIABLE  _TAG
+		OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+if(_RET)
+	message(FATAL_ERROR "failed to get git tag")
+endif()
+
+project($PROJECT
+	LANGUAGES $LANG
+	VERSION "\${_TAG}")
+
+if("^\${CMAKE_SOURCE_DIR}$" STREQUAL "^\${PROJECT_SOURCE_DIR}$")
+	set(IS_MAIN_PROJECT ON)
+	message(STATUS "adding \${PROJECT_NAME} v\${_TAG}")
+else()
+	set(IS_MAIN_PROJECT OFF)
+	message(STATUS "adding \${PROJECT_NAME} v\${_TAG} as a subproject")
+endif()
+
+add_subdirectory($PROJECT)
+
+include(CTest)
+add_subdirectory(test EXCLUDE_FROM_ALL)
+EOF
+
+	tee "$PROJECT/CMakeLists.txt" <<EOF
+add_library(\${PROJECT_NAME} INTERFACE)
+target_include_directories(\${PROJECT_NAME} INTERFACE inc)
+target_compile_features(\${PROJECT_NAME} INTERFACE $STD)
+EOF
+
+	tee "test/CMakeLists.txt" <<EOF
+if(NOT BUILD_TESTING)
+	return()
+endif()
+
+file(GLOB ALL_SRC "*.$EXT")
+set(TESTS "")
+
+foreach(PATH \${ALL_SRC})
+	string(REGEX REPLACE ".*[\\/](.*)\.cpp" "\\1" PATH_NAME "\${PATH}")
+	set(NAME "\${PROJECT_NAME}-test-\${PATH_NAME}")
+
+	add_executable(\${NAME} \${PATH})
+	target_compile_features(\${NAME} PUBLIC cxx_std_20)
+	target_include_directories(\${NAME} PUBLIC inc)
+	target_link_libraries(\${NAME} PUBLIC \${PROJECT_NAME})
+
+	add_test(NAME "\${PATH_NAME}"
+		 COMMAND \${CMAKE_CURRENT_BINARY_DIR}/\${NAME})
+
+	list(APPEND TESTS "\${NAME}")
+endforeach()
+
+if(IS_MAIN_PROJECT)
+	add_custom_target(check
+			  COMMAND \${CMAKE_CTEST_COMMAND} --verbose
+			  DEPENDS "\${TESTS}")
+else()
+	add_custom_target(\${PROJECT_NAME}-check
+			  COMMAND \${CMAKE_CTEST_COMMAND} --verbose
+			  DEPENDS "\${TESTS}")
+endif()
+EOF
+}
+
+if [ "$1" = "-l" -o "$1" = "--list-languages" ]
+then
+	printf "$LANGUAGES\n"
+	exit
+elif [ "$1" = "-h" -o "$1" = "--help" ]
+then
+	usage
+	exit
+elif [ "$#" -ne "2" ]
+then
+	die "incorrect number of arguments"
+elif ! is_supported_language "$1"
+then
+	die "unsupported language '$1'"
+elif [ -z "$2" ]
+then
+	die "project cannot have an empty name"
+elif [ "$(find . | wc -l)" -gt "1" ]
+then
+	die "cannot create a project in a non empty directory"
+fi
+
+LANG="$1"
+PROJECT="$2"
+
+# is the target language C/C++?
+if [ ! "${LANG##C}" = "$LANG" ]
+then
+	gen_cmake_project
+else
+	die "language '$LANG' is not currently implemented"
+fi
