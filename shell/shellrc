@@ -16,4 +16,11 @@ then
 	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
 
+# bash specific plugins
+if [ -n "${BASH_VERSION+1}" ]
+then
+	[ -f "$HOME/Projects/fabulous-config/shell/fzf-completion.bash" ] && . "$HOME/Projects/fabulous-config/shell/fzf-completion.bash"
+	[ -f "$HOME/Projects/fabulous-config/shell/fzf-key-bindings.bash" ] && . "$HOME/Projects/fabulous-config/shell/fzf-key-bindings.bash"
+fi
+
 #vi filetype=sh

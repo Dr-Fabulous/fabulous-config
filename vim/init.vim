@@ -2,7 +2,7 @@
 :colorscheme ron
 :syntax on
 :set fillchars=stl:\-,stlnc:\-,vert:\|
-:set statusline=\ %f\ %=\ %l/%L\ 
+:set statusline=\ %{FugitiveStatusline()}\ %f\ %=\ %l/%L\ 
 :set showtabline=2
 :hi VertSplit cterm=NONE
 :hi StatusLine cterm=bold ctermfg=3 ctermbg=NONE
