@@ -22,10 +22,18 @@
 :set autoindent
 :set history=0
 :set sessionoptions+=globals
+:set guicursor=a:block,i-r-c-ci-cr:ver25
 
-" enable auto complete (also uses ctags)
-:set omnifunc=syntaxcomplete#Complete
-:filetype plugin on
+" in neovim use neovim-remote (from pip3) to open
+" files in splits when the variables below are used
+" in terminal buffers.
+:if has('nvim')
+	:set shada=
+	:let $FABULOUS_NVIM_TERMINAL='1'
+	:let $EDITOR='nvr -cc :vsplit --remote-wait'
+	:let $VISUAL=$EDITOR
+	:let $GIT_EDITOR=$EDITOR
+:endif
 
 " enables better 'gf' use in C/C++ code
 :set path+=**4/Include,**4/include,**4/inc
@@ -37,23 +45,12 @@
 " configure then load plugins
 :packadd! ftab
 :packadd! fregion
-:packadd! frun
-:packadd! fmake
+:packadd! flivegrep
 :packadd! vim-cpp-modern
 :packadd! brightscript.vim
 :packadd! vim-fugitive
 
-:let $FZF_DEFAULT_COMMAND = "rg --files --ignore-case -g '!tags'"
-:let $FZF_DEFAULT_OPTS = '--ansi --preview-window="right:60%" --preview="batcat --color=always --style=header,grid --line-range :300 {}" --layout reverse --margin=1,4 --bind=ctrl-s:select-all,ctrl-d:deselect-all'
-
-" redefine :Rg to ignore ctags output
-:command! -bang -nargs=? Rg
-\ :call fzf#vim#grep(
-\	printf("rg --column --line-number --no-heading --color=always --smart-case -g '!tags' -- %s", shellescape(<q-args>)),
-\	1,
-\	fzf#vim#with_preview(),
-\	<bang>0
-\ )
+:let g:fzf_layout = {'window': {'width': 0.95, 'height': 0.95}}
 
 :packadd! fzf
 :packadd! fzf.vim
@@ -61,42 +58,47 @@
 " mappings
 :let mapleader = ' '
 
+" disable arrow keys
+:nnoremap <silent> <Up> <Nop>
+:nnoremap <silent> <Down> <Nop>
+:nnoremap <silent> <Left> <Nop>
+:nnoremap <silent> <Right> <Nop>
+:tnoremap <silent> <Up> <Nop>
+:tnoremap <silent> <Down> <Nop>
+:tnoremap <silent> <Left> <Nop>
+:tnoremap <silent> <Right> <Nop>
+:xnoremap <silent> <Up> <Nop>
+:xnoremap <silent> <Down> <Nop>
+:xnoremap <silent> <Left> <Nop>
+:xnoremap <silent> <Right> <Nop>
+
+" term mode escape
+:tnoremap <Esc><Esc> <C-\><C-n>
+
 " buffer navigation
-:nnoremap <silent> <Leader>gb :bn<CR>
-:nnoremap <silent> <Leader>gB :bp<CR>
+:nnoremap <silent> <expr> ]b printf(':%dbn<CR>', v:count1)
+:nnoremap <silent> <expr> [b printf(':%dbp<CR>', v:count1)
 
 " location list nagivation
-:nnoremap <silent> <Leader>gl :lne<CR>
-:nnoremap <silent> <Leader>gL :lN<CR>
+:nnoremap <silent> <expr> ]l printf(':%dlne<CR>', v:count1)
+:nnoremap <silent> <expr> [l printf(':%dlN<CR>', v:count1)
 
 " quickfix list navigation
-:nnoremap <silent> <Leader>gc :cn<CR>
-:nnoremap <silent> <Leader>gC :cN<CR>
+:nnoremap <silent> <expr> ]c printf(':%dcn<CR>', v:count1)
+:nnoremap <silent> <expr> [c printf(':%dcN<CR>', v:count1)
 
 " tag match navigation
-:nnoremap <silent> <Leader>gt :tn<CR>
-:nnoremap <silent> <Leader>gT :tp<CR>
+:nnoremap <silent> <expr> ]t printf(':%dtn<CR>', v:count1)
+:nnoremap <silent> <expr> [t printf(':tp<CR>', v:count1)
 
-" frun
-:nnoremap <silent> <Leader>rr :Frun<CR>
-:nnoremap <silent> <Leader>rt " enter command then map to variables
-
-" fmake
-:nnoremap <silent> <Leader>mm :Fmake!<CR>
-:nnoremap          <Leader>mt :Fmake! 
-:nnoremap <silent> <Leader>ma :Fmake! all<CR>
-:nnoremap <silent> <Leader>mc :Fmake! clean<CR>
-:nnoremap <silent> <Leader>m. :FmakeLast!<CR>
-
-" fzf
-:nnoremap <silent> <Leader>ff :GFiles<CR>
-:nnoremap <silent> <Leader>fF :Files<CR>
-:nnoremap          <Leader>fg :Rg 
-:nnoremap <silent> <Leader>fG :execute printf(':Rg %s', expand('<cword>'))<CR>
-:nnoremap <silent> <Leader>ft :Tags<CR>
-:nnoremap <silent> <Leader>fc :Commits!<CR>
-:nnoremap <silent> <Leader>fb :Buffers<CR>
-:nnoremap <silent> <Leader>fh :Helptags<CR>
+:nnoremap <silent> <Leader>f :Files<CR>
+:nnoremap <silent> <Leader>g :FLiveGrep<CR>
+:nnoremap <silent> <Leader>G :FLiveGrepCursor<CR>
+:nnoremap <silent> <Leader>t :Tags<CR>
+:nnoremap <silent> <Leader>c :Commits<CR>
+:nnoremap <silent> <Leader>b :Buffers<CR>
+:nnoremap <silent> <Leader>h :Helptags<CR>
+:nnoremap <silent> <Leader>m :Marks<CR>
 
 " reload .vimrc/init.vim
 :let g:fconfig = expand('<sfile>:p')

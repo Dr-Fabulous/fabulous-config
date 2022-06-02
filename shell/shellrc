@@ -1,0 +1,19 @@
+# default editor
+# env variable used to signal terminal buffers in nvim
+if [ -z "${FABULOUS_NVIM_TERMINAL+1}" ]
+then
+	export VISUAL='nvim'
+	export EDITOR="$VISUAL"
+	export GIT_EDITOR="$VISUAL"
+fi
+
+# use gpg-agent for ssh
+export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+
+if [ "${gnupg_SSH_AUTH_SOCK:-0}" -ne "$$" ]
+then
+	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
+#vi filetype=sh
