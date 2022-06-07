@@ -13,16 +13,28 @@
 :hi Pmenu ctermbg=NONE ctermfg=14
 :hi PmenuSel ctermbg=gray ctermfg=0
 
-" nvim/vim defaults
-:set viminfo=
-:set noswapfile
-:set nowrap
 :set splitright
 :set noautochdir
 :set autoindent
+
+" reduce disk usage
+:set viminfo=
+:set noswapfile
+:set nowrap
 :set history=0
-:set sessionoptions+=globals
+
+" thin cursor for insert mode, block cursor otherwise
 :set guicursor=a:block,i-r-c-ci-cr:ver25
+
+" enable fuzzy like completion with tab on commands like :find
+:set path+=**
+:set wildmenu
+:set wildmode=longest:full,full
+
+" make netrw not terrible to use
+:let g:netrw_banner = 0
+:let g:netrw_altv = 1
+:let g:netrw_liststyle = 3 " tree style
 
 " in neovim use neovim-remote (from pip3) to open
 " files in splits when the variables below are used
@@ -34,9 +46,6 @@
 	:let $VISUAL=$EDITOR
 	:let $GIT_EDITOR=$EDITOR
 :endif
-
-" enables better 'gf' use in C/C++ code
-:set path+=**4/Include,**4/include,**4/inc
 
 " highlight useless whitespace
 :highlight trailing_whitespace ctermbg=red
