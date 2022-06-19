@@ -54,7 +54,14 @@
 " configure then load plugins
 :packadd! ftab
 :packadd! fregion
+
+:let g:flivegrep_use_rg = 1
+
 :packadd! flivegrep
+
+:let g:fcd_use_fd = 0
+
+:packadd! fcd
 :packadd! vim-cpp-modern
 :packadd! brightscript.vim
 :packadd! vim-fugitive
@@ -100,11 +107,13 @@
 :nnoremap <silent> <expr> ]t printf(':%dtn<CR>', v:count1)
 :nnoremap <silent> <expr> [t printf(':tp<CR>', v:count1)
 
+" fzf
 :nnoremap <silent> <Leader>f :Files<CR>
 :nnoremap <silent> <Leader>g :FLiveGrep<CR>
 :nnoremap <silent> <Leader>G :FLiveGrepCursor<CR>
 :nnoremap <silent> <Leader>t :Tags<CR>
-:nnoremap <silent> <Leader>c :Commits<CR>
+:nnoremap <silent> <Leader>c :Fcd<CR>
+:nnoremap <silent> <Leader>C :Commits<CR>
 :nnoremap <silent> <Leader>b :Buffers<CR>
 :nnoremap <silent> <Leader>h :Helptags<CR>
 :nnoremap <silent> <Leader>m :Marks<CR>
