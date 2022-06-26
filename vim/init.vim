@@ -21,7 +21,10 @@
 :set viminfo=
 :set noswapfile
 :set nowrap
-:set history=0
+
+:if has('nvim')
+	:set shada=
+:endif
 
 " thin cursor for insert mode, block cursor otherwise
 :set guicursor=a:block,i-r-c-ci-cr:ver25
@@ -40,7 +43,6 @@
 " files in splits when the variables below are used
 " in terminal buffers.
 :if has('nvim')
-	:set shada=
 	:let $FABULOUS_NVIM_TERMINAL='1'
 	:let $EDITOR='nvr -cc :vsplit --remote-wait'
 	:let $VISUAL=$EDITOR
@@ -70,6 +72,14 @@
 
 :packadd! fzf
 :packadd! fzf.vim
+
+:filetype plugin on
+
+" place certain window types on the right
+:augroup FAutoRightGroup
+	:autocmd!
+	:autocmd FileType help,man,fugitive :wincmd L
+:augroup END
 
 " mappings
 :let mapleader = ' '
@@ -117,6 +127,7 @@
 :nnoremap <silent> <Leader>b :Buffers<CR>
 :nnoremap <silent> <Leader>h :Helptags<CR>
 :nnoremap <silent> <Leader>m :Marks<CR>
+:nnoremap <silent> <Leader>r :History:<CR>
 
 " reload .vimrc/init.vim
 :let g:fconfig = expand('<sfile>:p')
