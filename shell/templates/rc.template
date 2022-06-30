@@ -1,0 +1,29 @@
+# vi: filetype=sh
+
+if [ -d "$FABULOUS_ROOT/shell/rc.d" ]
+then
+	while IFS='' read -r FABULOUS_RC
+	do
+		if [ -r "$FABULOUS_RC" ]
+		then
+			. "$FABULOUS_RC"
+		fi
+	done <<-EOF
+		$(find "$FABULOUS_ROOT/shell/rc.d" -type f -a -not -name "*.bash" -a -perm /u+r)
+	EOF
+
+	if [ -n "${BASH_VERSION+1}" ]
+	then
+		while IFS='' read -r FABULOUS_RC
+		do
+			if [ -r "$FABULOUS_RC" ]
+			then
+				. "$FABULOUS_RC"
+			fi
+		done <<-EOF
+			$(find "$FABULOUS_ROOT/shell/rc.d" -type f -a -name "*.bash" -a -perm /u+r)
+		EOF
+	fi
+fi
+
+unset FABULOUS_RC

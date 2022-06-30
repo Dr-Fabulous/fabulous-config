@@ -1,0 +1,53 @@
+# vi: filetype=sh
+
+# bash config
+if [ -n "${BASH_VERSION+1}" ]
+then
+	unset HISTFILE
+fi
+
+# use gpg-agent for ssh
+export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+
+if [ "${gnupg_SSH_AUTH_SOCK:-0}" -ne "$$" ]
+then
+	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
+# exit if not interactive
+if [ "${-##*i}" = "$-" ]
+then
+	return
+fi
+
+# default editor
+# env variable used to signal terminal buffers in nvim
+if [ -z "${FABULOUS_NVIM_TERMINAL+1}" ]
+then
+	export VISUAL='nvim'
+	export EDITOR="$VISUAL"
+	export GIT_EDITOR="$VISUAL"
+fi
+
+# can we use escape colour codes?
+if [ "$TERM" = "xterm-color" ] \
+|| [ "${TERM##*-256color}" != "$TERM" ] \
+|| ([ "$TERM" = "linux" ] && [ -n "${BASH_VERSION+1}" ])
+then
+	if [ -n "${BASH_VERSION+1}" ]
+	then
+		if [ -r "$FABULOUS_ROOT/shell/git-prompt.sh" ]
+		then
+			. "$FABULOUS_ROOT/shell/git-prompt.sh"
+			export GIT_PS1_SHOWCOLORHINTS=1
+			export PROMPT_COMMAND='__git_ps1 "\033[1;32m\u@\h\033[0m:\033[1;34m\w\033[0m" "$ " "(%s)"'
+		else
+			export PS1="\033[1;32m\u@\H\033[0m:\033[1;34m\w\033[0m$ "
+		fi
+	else
+		export PS1='\033[1;32m$USER\033[0m:\033[1;34m$PWD\033[0m$ '
+	fi
+else
+	export PS1='$USER:$PWD$ '
+fi

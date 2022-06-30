@@ -13,7 +13,7 @@
 	:let l:reload_cmd = printf(g:flivegrep_fmt, '{q}')
 	:let l:spec = {'options': ['--prompt', 'LiveGrep> ', '--phony', '--query', a:query, '--bind', 'change:reload:' . l:reload_cmd]}
 
-	:return fzf#vim#grep(l:initial_cmd, 1, fzf#wrap(l:spec), a:fullscreen)
+	:return fzf#vim#grep(l:initial_cmd, 1, fzf#vim#with_preview(l:spec), a:fullscreen)
 :endfunction
 
 :command! -bang -nargs=? FLiveGrep :call <SID>FLiveGrep(<q-args>, <bang>0)

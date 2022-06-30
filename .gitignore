@@ -1,0 +1,3 @@
+shell/rc.d/0-fabulous-shellrc
+shell/rc.d/1-fzf-completion.bash
+shell/rc.d/2-fzf-bindings.bash

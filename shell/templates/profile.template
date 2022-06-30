@@ -1,0 +1,29 @@
+# vi: filetype=sh
+
+# for login shells, /etc/profile and ~/.profile
+# are sourced first. A posix login shell will
+# source $ENV right after if it is set, bash
+# only does this when invoked as 'sh'
+
+export ENV="$HOME/.shellrc"
+
+if [ -d "$FABULOUS_ROOT/shell/profile.d" ]
+then
+	while IFS='' read -r FABULOUS_PROFILE
+	do
+		if [ -r "$FABULOUS_PROFILE" ]
+		then
+			. "$FABULOUS_PROFILE"
+		fi
+	done <<-EOF
+		$(find "$FABULOUS_ROOT/shell/profile.d" -type f -a -perm /u+r)
+	EOF
+fi
+
+unset FABULOUS_PROFILE
+
+# manually source $ENV if in an interactive login bash shell
+if [ -n "${BASH_VERSION+1}" ] && [ -r "$ENV" ]
+then
+	. "$ENV"
+fi

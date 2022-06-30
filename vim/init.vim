@@ -61,7 +61,7 @@
 
 :packadd! flivegrep
 
-:let g:fcd_use_fd = 0
+:let g:fcd_use_fd = 1
 
 :packadd! fcd
 :packadd! vim-cpp-modern
@@ -69,6 +69,7 @@
 :packadd! vim-fugitive
 
 :let g:fzf_layout = {'window': {'width': 0.95, 'height': 0.95}}
+:let g:fzf_preview_window = ['hidden']
 
 :packadd! fzf
 :packadd! fzf.vim
@@ -78,7 +79,8 @@
 " place certain window types on the right
 :augroup FAutoRightGroup
 	:autocmd!
-	:autocmd FileType help,man,fugitive :wincmd L
+	:autocmd FileType fugitive,git :wincmd L
+	:autocmd FileType help,man :set hidden | :wincmd L
 :augroup END
 
 " mappings
@@ -119,6 +121,7 @@
 
 " fzf
 :nnoremap <silent> <Leader>f :Files<CR>
+:nnoremap <silent> <Leader>F :GFiles<CR>
 :nnoremap <silent> <Leader>g :FLiveGrep<CR>
 :nnoremap <silent> <Leader>G :FLiveGrepCursor<CR>
 :nnoremap <silent> <Leader>t :Tags<CR>

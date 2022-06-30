@@ -4,7 +4,7 @@
 
 :if !exists('g:fcd_proto_fmt')
 	:let g:fcd_proto_fmt = g:fcd_use_fd ?
-	\                      'fd --type d %s' :
+	\                      'fdfind --type d %s' :
 	\                      'find -L . -mindepth 1 \( -path "*/\.*" -o -fstype "sysfs" -o -fstype "devfs" -o -fstype "devtmpfs" -o -fstype "proc" \) -prune -o -type d %s -print 2> /dev/null | cut -b3-'
 :endif
 
