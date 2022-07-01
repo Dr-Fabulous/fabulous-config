@@ -3,15 +3,6 @@
 # reduce disk usage
 unset HISTFILE
 
-# use gpg-agent for ssh
-export GPG_TTY="$(tty)"
-unset SSH_AGENT_PID
-
-if [ "${gnupg_SSH_AUTH_SOCK:-0}" -ne "$$" ]
-then
-	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-fi
-
 # exit if not interactive
 if [ "${-##*i}" = "$-" ]
 then
@@ -28,7 +19,8 @@ then
 fi
 
 # can we use escape colour codes?
-if [ "$TERM" = "xterm-color" ] \
+if [ "$TERM" = "xterm" ] \
+|| [ "$TERM" = "xterm-color" ] \
 || [ "${TERM##*-256color}" != "$TERM" ] \
 || ([ "$TERM" = "linux" ] && [ -n "${BASH_VERSION+1}" ])
 then

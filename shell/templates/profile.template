@@ -1,5 +1,14 @@
 # vi: filetype=sh
 
+# use gpg-agent for ssh
+export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+
+if [ "${gnupg_SSH_AUTH_SOCK:-0}" -ne "$$" ]
+then
+	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
 # for login shells, /etc/profile and ~/.profile
 # are sourced first. A posix login shell will
 # source $ENV right after if it is set, bash
