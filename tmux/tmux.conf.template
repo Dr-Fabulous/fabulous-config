@@ -1,5 +1,5 @@
 # env
-TMUX_BIN="$HOME/.tmux"
+TMUX_BIN="$FABULOUS_ROOT/tmux/scripts"
 TMUX_PROJECTS="$HOME/Projects"
 
 # better prefix

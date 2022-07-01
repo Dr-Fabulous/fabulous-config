@@ -1,10 +1,7 @@
 # vi: filetype=sh
 
-# bash config
-if [ -n "${BASH_VERSION+1}" ]
-then
-	unset HISTFILE
-fi
+# reduce disk usage
+unset HISTFILE
 
 # use gpg-agent for ssh
 export GPG_TTY="$(tty)"
@@ -48,6 +45,8 @@ then
 	else
 		export PS1='\033[1;32m$USER\033[0m:\033[1;34m$PWD\033[0m$ '
 	fi
+
+	alias ls='ls --color=auto'
 else
 	export PS1='$USER:$PWD$ '
 fi
