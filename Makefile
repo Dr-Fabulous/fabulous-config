@@ -38,6 +38,8 @@ shell/install:
 	$(ENVSUBST) 0<"shell/templates/rc.template" 1>"$(HOME)/.shellrc"
 	$(CP) "$(HOME)/.shellrc" "$(HOME)/.bashrc"
 	$(CP) "shell/inputrc" "$(HOME)/.inputrc"
+	$(MKDIR) "shell/profile.d"
+	$(MKDIR) "shell/rc.d"
 	$(ENVSUBST) 0<"shell/templates/fabulous-shellrc.template" 1>"shell/rc.d/0-fabulous-shellrc"
 	$(CURL) $(FZF_COMPLETION_URL) 1>"shell/rc.d/1-fzf-completion.bash"
 	$(CURL) $(FZF_BINDINGS_URL) 1>"shell/rc.d/2-fzf-bindings.bash"
@@ -93,6 +95,7 @@ gpg/install:
 	@! [ -f "gpg/$(INSTALL_STAMP)" ] || { $(PRINTF_ERROR) "gpg installation already present" 1>&2 && false; }
 	$(MKDIR) "$(HOME)/.ssh"
 	$(MKDIR) "$(HOME)/.gnupg"
+	$(MKDIR) "gpg/ssh-config.d"
 	$(ENVSUBST) 0<"gpg/ssh-config.template" 1>"$(HOME)/.ssh/config"
 	$(LN) "$(PWD)/gpg/gpg-agent.conf" "$(HOME)/.gnupg/gpg-agent.conf"
 	$(TOUCH) "$(HOME)/.gnupg/sshcontrol"
