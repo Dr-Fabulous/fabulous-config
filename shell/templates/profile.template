@@ -25,7 +25,7 @@ then
 			. "$FABULOUS_PROFILE"
 		fi
 	done <<-EOF
-		$(find "$FABULOUS_ROOT/shell/profile.d" -type f -a -perm /u+r)
+		$(find "$FABULOUS_ROOT/shell/profile.d" -type f -a -perm -004)
 	EOF
 fi
 

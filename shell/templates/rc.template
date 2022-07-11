@@ -18,7 +18,7 @@ then
 			. "$FABULOUS_RC"
 		fi
 	done <<-EOF
-		$(find "$FABULOUS_ROOT/shell/rc.d" -type f -a -not -name "*.bash" -a -perm /u+r)
+		$(find "$FABULOUS_ROOT/shell/rc.d" -type f -a -not -name "*.bash" -a -perm -004)
 	EOF
 
 	if [ -n "${BASH_VERSION+1}" ]
@@ -30,7 +30,7 @@ then
 				. "$FABULOUS_RC"
 			fi
 		done <<-EOF
-			$(find "$FABULOUS_ROOT/shell/rc.d" -type f -a -name "*.bash" -a -perm /u+r)
+			$(find "$FABULOUS_ROOT/shell/rc.d" -type f -a -name "*.bash" -a -perm -004)
 		EOF
 	fi
 fi

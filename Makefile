@@ -16,16 +16,16 @@ FABULOUS_ROOT=$(PWD)
 export FABULOUS_ROOT
 
 # commands
-DEP=command -V --
-CP=cp --interactive --
-RM=rm --
-LN=ln --symbolic --interactive --
+DEP=command -V
+CP=cp
+RM=rm
+LN=ln -s
 GIT=git
 FIND=find
-MKDIR=mkdir -p --
+MKDIR=mkdir -p
 CHMOD=chmod
-TOUCH=touch --
-CURL=curl --
+TOUCH=touch
+CURL=curl
 ENVSUBST=envsubst '$$FABULOUS_ROOT'
 
 install: shell/install vim/install tmux/install gpg/install
@@ -67,7 +67,7 @@ vim/install:
 	$(LN) "$(PWD)/vim/pack" "$(HOME)/.vim"
 	$(LN) "$(PWD)/vim/pack" "$(HOME)/.config/nvim"
 	$(GIT) submodule update --init --recursive --depth=1
-	$(FIND) "vim/pack/upstream/opt" -type d -a -name doc -exec vim -es -c ":helptags {}" \;
+	$(FIND) "vim/pack/upstream/opt" -type d -a -name doc -exec vim -es -c ":helptags {}" -c ":q!" \;
 	$(TOUCH) "vim/$(INSTALL_STAMP)"
 
 vim/uninstall:

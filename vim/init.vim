@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " styling
 :colorscheme ron
 :syntax on
@@ -16,11 +18,11 @@
 :set splitright
 :set noautochdir
 :set autoindent
+:set nowrap
 
 " reduce disk usage
 :set viminfo=
 :set noswapfile
-:set nowrap
 
 :if has('nvim')
 	:set shada=
@@ -86,6 +88,12 @@
 " mappings
 :let mapleader = ' '
 
+" escaping
+:nnoremap <silent> <Esc> <Nop>
+:inoremap <silent> jj <Esc>
+:cnoremap <silent> jj <Esc>
+:tnoremap <silent> <Esc> <C-\><C-n>
+
 " disable arrow keys
 :nnoremap <silent> <Up> <Nop>
 :nnoremap <silent> <Down> <Nop>
@@ -99,9 +107,6 @@
 :xnoremap <silent> <Down> <Nop>
 :xnoremap <silent> <Left> <Nop>
 :xnoremap <silent> <Right> <Nop>
-
-" term mode escape
-:tnoremap <Esc><Esc> <C-\><C-n>
 
 " buffer navigation
 :nnoremap <silent> <expr> ]b printf(':%dbn<CR>', v:count1)
@@ -117,7 +122,7 @@
 
 " tag match navigation
 :nnoremap <silent> <expr> ]t printf(':%dtn<CR>', v:count1)
-:nnoremap <silent> <expr> [t printf(':tp<CR>', v:count1)
+:nnoremap <silent> <expr> [t printf(':%dtp<CR>', v:count1)
 
 " fzf
 :nnoremap <silent> <Leader>f :Files<CR>
